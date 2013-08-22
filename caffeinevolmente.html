@@ -1,0 +1,33 @@
+<head>
+  <title>caffeinevolmente</title>
+</head>
+
+<body>
+  <div id="outer">
+    {{> scoreboard}}
+  </div>
+</body>
+
+<template name="scoreboard">
+  <h1>Crea la tua classifica!</h1>
+  <div class="scoreboard">
+    {{#each rated_caps}}
+      {{> cap}}
+    {{/each}}
+  </div>
+  <div class="new_caps">
+    {{#each new_caps}}
+      {{> cap}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="cap">
+  <div class="cap {{winning}} {{tried}}">
+    <img src="{{image}}">
+    <div class="cap_details" style="display: none">
+      <span class="name">{{name}}</span>
+      <span class="score">{{score}}</span>
+    </div>
+  </div>
+</template>
