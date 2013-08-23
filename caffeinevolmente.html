@@ -10,24 +10,26 @@
 
 <template name="scoreboard">
   <h1>Crea la tua classifica!</h1>
-  <div class="scoreboard">
-    {{#each rated_caps}}
-      {{> cap}}
-    {{/each}}
-  </div>
-  <div class="new_caps">
-    {{#each new_caps}}
-      {{> cap}}
-    {{/each}}
-  </div>
+  <ul id="user_ratings">
+    <ul class="scoreboard">
+      {{#each rated_caps}}
+        {{> cap}}
+      {{/each}}
+    </ul>
+    <ul class="new_caps">
+      {{#each new_caps}}
+        {{> cap}}
+      {{/each}}
+    </ul>
+  </ul>
 </template>
 
 <template name="cap">
-  <div class="cap {{winning}} {{tried}}">
+  <li class="cap {{winning}} {{tried}}" draggable="true">
     <img src="{{image}}">
     <div class="cap_details" style="display: none">
       <span class="name">{{name}}</span>
       <span class="score">{{score}}</span>
     </div>
-  </div>
+  </li>
 </template>
