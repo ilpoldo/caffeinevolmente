@@ -17,7 +17,6 @@ body {
 
 .scoreboard {
   display: inline-block;
-  border: 2px solid #666;
   min-width: 84px;
   height: 93px;
   margin: 3px;
@@ -26,9 +25,13 @@ body {
 }
 
 /*.scoreboard :first-child{
-  
+
 }
 */
+
+.friend {
+  clear: left;
+}
 
 .cap {
     cursor: pointer;

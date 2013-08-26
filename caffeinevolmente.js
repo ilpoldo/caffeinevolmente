@@ -3,37 +3,30 @@ Caps = new Meteor.Collection("caps");
 if (Meteor.isClient) {
   Template.scoreboard.rendered = function () {
     var list = document.getElementById("user-ratings");
-    nativesortable(list, {
-      change: function (argument) {
-        console.log("foo");
-      }
-    });
+    if (list) {
+      nativesortable(list, {
+        change: function (argument) {
+          // FIXME
+          console.log("foo");
+        }
+      });
+    }
   };
 
   Template.scoreboard.caps = function () {
     var user = Meteor.user();
-    if (!user)
+    if (user) {
+      console.log(favourites(user));
+      return favourites(user);
+    } else {
       return [];
-    // TODO: Too many queries?!
-    var caps = user.profile.favourites.map(function (cap_id) {
-      return Caps.findOne({_id: cap_id})
-    });
-    return caps;
+    }
   };
+
   Template.scoreboard.events({
-
-  //   'dragover #features' : function(e, t) {
-  //     e.preventDefault(); 
-  //     $(e.currentTarget).addClass('dragover');
-  //   },
-
-  //   'dragleave #features' : function(e, t) {
-  //     $(e.currentTarget).removeClass('dragover');
-  //   },
-
     'drop' : function(e, t) {
       // e.preventDefault();
-      var caps = t.findAll('.cap').map(Spark.getDataContext)
+      var caps = t.findAll('.cap').map(Spark.getDataContext);
 
       var new_favourites = _.map(caps, function (cap) {
         return cap._id;
@@ -48,6 +41,30 @@ if (Meteor.isClient) {
     }
 
   });
+
+  Template.social.friends = function () {
+    if (Meteor.user()) {
+      return Meteor.users.find({_id: {$ne: Meteor.user()._id}});
+    } else {
+      return Meteor.users.find({});
+    }
+  };
+
+  Template.friend.helpers(
+  {
+    name: function() {return this.profile.name;}
+  });
+
+  Template.friend.caps = function() {
+    return favourites(this);
+  };
+
+  favourites = function(user) {
+    var caps = user.profile.favourites.map(function (cap_id) {
+      return Caps.findOne({_id: cap_id});
+    });
+    return caps;
+  };
 
 }
 
@@ -81,7 +98,8 @@ if (Meteor.isServer) {
     var all_the_caps = Caps.find({}, {sort: {name: 1}}).map(function (c) {
       return c._id;
     });
-    user.profile = {favourites: all_the_caps};
+    user.profile = {favourites: all_the_caps,
+                    name: user.emails[0].address.slice(0,-9)};
 
     // We still want the default hook's 'profile' behavior.
     // if (options.profile)

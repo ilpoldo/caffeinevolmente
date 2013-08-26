@@ -5,17 +5,40 @@
 <body>
   <div id="outer">
     {{> scoreboard}}
+    {{> social}}
   </div>
 </body>
 
 <template name="scoreboard">
   <div style="float:right">{{loginButtons align="right"}}</div>
-  <h1>Crea la tua classifica!</h1>
-  <ul id="user-ratings" class="scoreboard">
-    {{#each caps}}
-      {{> cap}}
+  <h1>Caffeinevolmente</h1>
+  {{#if currentUser}}
+    <h2>La tua classifica</h2>
+    <ul id="user-ratings" class="scoreboard">
+      {{#each caps}}
+        {{> cap}}
+      {{/each}}
+    </ul>
+  {{/if}}
+</template>
+
+<template name="social">
+  <div id="social">
+    {{#each friends}}
+      {{> friend}}
     {{/each}}
-  </ul>
+  </div>
+</template>
+
+<template name="friend">
+  <div class="friend">
+    <h3>{{name}}</h3>
+    <ul class="scoreboard">
+      {{#each caps}}
+        {{> cap}}
+      {{/each}}
+    </ul>
+  </div>
 </template>
 
 <template name="cap">
