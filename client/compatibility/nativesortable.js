@@ -129,7 +129,7 @@ nativesortable = (function() {
             currentlyDraggingElement = this;
             addClassName(currentlyDraggingElement, DRAGGING_CLASS);
             
-            [].forEach.call($(element).children("li").get(), function(el) {
+            [].forEach.call(element.childNodes, function(el) {
                 if (el.nodeType === 1) {
                     addClassName(el, CHILD_CLASS);
                 }
@@ -211,7 +211,7 @@ nativesortable = (function() {
 
             currentlyDraggingElement = null;
             currentlyDraggingTarget = null;
-            [].forEach.call($(element).children("li").get(), function(el) {
+            [].forEach.call(element.childNodes, function(el) {
                 if (el.nodeType === 1) {
                     removeClassName(el, OVER_CLASS);
                     removeClassName(el, DRAGGING_CLASS);
@@ -231,7 +231,7 @@ nativesortable = (function() {
                 return true;
             }
             
-            [].forEach.call($(element).children("li").get(), function(el) {
+            [].forEach.call(element.childNodes, function(el) {
                 removeClassName(el, OVER_CLASS);
             });
             
@@ -325,7 +325,7 @@ nativesortable = (function() {
         }
         
         
-        [].forEach.call($(element).children("li").get(), function(el) {
+        [].forEach.call(element.childNodes, function(el) {
             if (el.nodeType === 1) {
                 el.setAttribute("draggable", "true");
             }

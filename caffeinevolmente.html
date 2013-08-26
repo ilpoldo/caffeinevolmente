@@ -9,25 +9,25 @@
 </body>
 
 <template name="scoreboard">
+  <div style="float:right">{{loginButtons align="right"}}</div>
   <h1>Crea la tua classifica!</h1>
-  <ul id="user_ratings">
-    <ul class="scoreboard">
-      {{#each rated_caps}}
-        {{> cap}}
-      {{/each}}
-    </ul>
-    <ul class="new_caps">
-      {{#each new_caps}}
-        {{> cap}}
-      {{/each}}
-    </ul>
+  <ul id="user-ratings" class="scoreboard">
+    {{#each caps}}
+      {{> cap}}
+    {{/each}}
   </ul>
 </template>
 
 <template name="cap">
-  <li class="cap {{winning}} {{tried}}" draggable="true">
-    <img src="{{image}}">
-    <div class="cap_details" style="display: none">
+  <li class="cap {{winning}} {{tried}}">
+    <img src="{{image}}" draggable="false">
+<!--     <svg width="50px" height="50px">
+      <g>
+        <rect x="-25" y="-25" width="50" height="50" stroke="blue" fill="purple"
+       fill-opacity="0.5" stroke-opacity="0.8"/>
+      </g>
+    </svg>
+ -->    <div class="cap_details" style="display: none">
       <span class="name">{{name}}</span>
       <span class="score">{{score}}</span>
     </div>
