@@ -44,6 +44,7 @@ if (Meteor.isClient) {
 
   Template.social.friends = function () {
     if (Meteor.user()) {
+      // TODO: sort by latest updated
       return Meteor.users.find({_id: {$ne: Meteor.user()._id}});
     } else {
       return Meteor.users.find({});
@@ -86,10 +87,9 @@ if (Meteor.isServer) {
                      tasted: false});
     }
   });
-
   
   Accounts.validateNewUser(function (user) {
-    if ( _.contains(allowed_users, user.emails[0].address) )
+    if ( _.contains(Meteor.settings.allowed_users, user.emails[0].address) )
       return true;
     throw new Meteor.Error(403, "Your email is not allowed");
   });
