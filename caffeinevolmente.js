@@ -7,7 +7,6 @@ if (Meteor.isClient) {
       nativesortable(list, {
         change: function (argument) {
           // FIXME
-          console.log("foo");
         }
       });
     }
@@ -16,7 +15,6 @@ if (Meteor.isClient) {
   Template.scoreboard.caps = function () {
     var user = Meteor.user();
     if (user) {
-      console.log(favourites(user));
       return favourites(user);
     } else {
       return [];
@@ -71,6 +69,7 @@ if (Meteor.isClient) {
 
 // On server startup, create some players if the database is empty.
 if (Meteor.isServer) {
+
   Meteor.startup(function () {
     if (Caps.find().count() === 0) {
       var names = ["Dolcemente - crema lungo",
