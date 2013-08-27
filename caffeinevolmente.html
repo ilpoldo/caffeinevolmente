@@ -11,14 +11,16 @@
 
 <template name="scoreboard">
   <div style="float:right">{{loginButtons align="right"}}</div>
-  <h1>Caffeinevolmente</h1>
+  <h1 id="app-name">Caffeinevolmente</h1>
   {{#if currentUser}}
     <h2>La tua classifica</h2>
-    <ul id="user-ratings" class="scoreboard">
-      {{#each caps}}
-        {{> cap}}
-      {{/each}}
-    </ul>
+    <div id="evil-decoration">
+      <ul id="user-ratings" class="scoreboard">
+        {{#each caps}}
+          {{> cap}}
+        {{/each}}
+      </ul>
+    </div>
   {{/if}}
 </template>
 
