@@ -40,10 +40,26 @@ if (Meteor.isClient) {
 
   });
 
+  var taste_distance = function(friend) {
+    var favourites = Meteor.user().profile.favourites;
+    var square_distances = [];
+    for (var i in favourites) {
+      var cap_id = favourites[i];
+      var other_rating = friend.profile.favourites.indexOf(cap_id);
+      if (other_rating !== -1) {
+        var rating = favourites.indexOf(cap_id);
+        var square_of_distance = Math.pow((rating - other_rating), 2);
+        square_distances.push(square_of_distance);
+      }
+    }
+    return 1.0 / (1.0 + Math.sqrt(_.reduce(square_distances, function(sum, d){ return sum + d; })));
+  };
+
   Template.social.friends = function () {
     if (Meteor.user()) {
       // TODO: sort by latest updated
-      return Meteor.users.find({_id: {$ne: Meteor.user()._id}});
+      var friends = Meteor.users.find({_id: {$ne: Meteor.user()._id}}).fetch();
+      return _.sortBy(friends, function(f) {return taste_distance(f);}).reverse();
     } else {
       return Meteor.users.find({});
     }
@@ -59,10 +75,12 @@ if (Meteor.isClient) {
   };
 
   favourites = function(user) {
-    var caps = user.profile.favourites.map(function (cap_id) {
-      return Caps.findOne({_id: cap_id});
+    var favourites = user.profile.favourites;
+    var caps = Caps.find({_id: {$in: favourites}}).fetch();
+
+    return _.sortBy(caps, function(c) {
+      return favourites.indexOf(c._id);
     });
-    return caps;
   };
 
 }
@@ -105,4 +123,32 @@ if (Meteor.isServer) {
     //   user.profile = options.profile;
     return user;
   });
+
+  var taste_distance = function(user) {
+    var reduce = function(key, values) {
+      return Array.sum(values);  // Array.sum is in the mongodb docs 
+    };
+
+    var finalize = function(key, values) {
+      return 1.0 / (1.0 + Math.sqrt(values));
+    };
+
+    var map = function() {
+      for (var cap_id in user.profile.favourites) {
+        var other_rating = this.profile.preferences.indexOf(cap_id);
+        if (other_rating !== -1) {
+          var rating = user.profile.favourites.indexOf(cap_id);
+          var square_of_distance = Math.pow((rating - other_rating), 2);
+          emit(this._id, square_of_distance);
+        }
+      }
+    };
+
+    return function(collection) {
+      return collection.mapReduce(map,
+                           reduce,
+                           {query: {_id: {$ne: user._id}}});
+    };
+
+  };
 }
