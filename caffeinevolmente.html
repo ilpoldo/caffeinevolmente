@@ -3,23 +3,26 @@
 </head>
 
 <body>
+  <div style="float:right">{{loginButtons align="right"}}</div>
+  <h1 id="app-name">Caffeinevolmente</h1>
   <div id="outer">
     {{> scoreboard}}
     {{> social}}
   </div>
+  <script type="text/javascript" src="//use.typekit.net/nnq1gfd.js"></script>
 </body>
 
 <template name="scoreboard">
-  <div style="float:right">{{loginButtons align="right"}}</div>
-  <h1 id="app-name">Caffeinevolmente</h1>
   {{#if currentUser}}
-    <h2>La tua classifica</h2>
-    <div id="evil-decoration">
-      <ul id="user-ratings" class="scoreboard">
-        {{#each caps}}
-          {{> cap}}
-        {{/each}}
-      </ul>
+    <div class="me">
+      <h2>La tua classifica</h2>
+      <div id="evil-decoration">
+        <ul id="user-ratings" class="scoreboard">
+          {{#each caps}}
+            {{> cap}}
+          {{/each}}
+        </ul>
+      </div>
     </div>
   {{/if}}
 </template>

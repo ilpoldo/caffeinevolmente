@@ -1,6 +1,9 @@
 Caps = new Meteor.Collection("caps");
 
 if (Meteor.isClient) {
+  try{Typekit.load();}catch(e){}
+
+
   Template.scoreboard.rendered = function () {
     var list = document.getElementById("user-ratings");
     if (list) {
