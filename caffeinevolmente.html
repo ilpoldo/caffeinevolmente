@@ -9,20 +9,19 @@
     {{> scoreboard}}
     {{> social}}
   </div>
-  <script type="text/javascript" src="//use.typekit.net/nnq1gfd.js"></script>
+  <div id="footer"></div>
+  <script type="text/javascript" src="http://use.typekit.net/nnq1gfd.js"></script>
 </body>
 
 <template name="scoreboard">
   {{#if currentUser}}
     <div class="me">
       <h2>La tua classifica</h2>
-      <div id="evil-decoration">
-        <ul id="user-ratings" class="scoreboard">
-          {{#each caps}}
-            {{> cap}}
-          {{/each}}
-        </ul>
-      </div>
+      <ul id="user-ratings" class="scoreboard">
+        {{#each caps}}
+          {{> cap}}
+        {{/each}}
+      </ul>
     </div>
   {{/if}}
 </template>
