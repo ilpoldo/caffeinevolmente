@@ -1,6 +1,9 @@
 Caps = new Meteor.Collection("caps");
+Migrations = new Meteor.Collection('migrations');
+
 
 if (Meteor.isClient) {
+
   try{Typekit.load();}catch(e){}
 
 
@@ -39,6 +42,8 @@ if (Meteor.isClient) {
                               new_favourites
                             }
                           });
+
+      console.log(t);
     }
 
   });
@@ -73,6 +78,13 @@ if (Meteor.isClient) {
     name: function() {return this.profile.name;}
   });
 
+  Template.cap.helpers(
+  {
+    tierra_tag: function() {return this.shorthand === 'ti';},
+    dolcemente_slice: function() {return this.shorthand === 'dl';},
+    le_selezioni: function() {return ["mm", "dv"].indexOf(this.shorthand) != -1;}
+  });
+
   Template.friend.caps = function() {
     return favourites(this);
   };
@@ -105,6 +117,38 @@ if (Meteor.isServer) {
                      score: 0,
                      image: '/images/caps/' + (i+1) + '.png',
                      tasted: false});
+    }
+    if (!Migrations.findOne({name: "addColorsAndFixNames"})) {
+        var renames = {
+          "Appassionatamente": "Divinamente - le selezioni",
+          "Divinamente - le selezioni": "Appassionatamente",       
+        }
+      Caps.find({name: {$in: Object.keys(renames)}}).forEach(function (cap) {
+        // swap Two badly named caps
+        Caps.update(cap._id, {$set: {name: renames[cap.name]}});
+      });
+      var colors = {
+        "Dolcemente - crema lungo": "#ac5c03",
+        "Deliziosamente": "#e6b700",
+        "Magicamente - le selezioni": "#bb0286",
+        "¡Tierra! - intenso": "#81001f",
+        "Appassionatamente": "#dc291e",
+        "Intensamente": "#a00c2c",
+        "Divinamente - le selezioni": "#281e86"
+      };
+      var shorthands = {
+        "Dolcemente - crema lungo": "dl",
+        "Deliziosamente": "dz",
+        "Magicamente - le selezioni": "mm",
+        "¡Tierra! - intenso": "ti",
+        "Appassionatamente": "ap",
+        "Intensamente": "in",
+        "Divinamente - le selezioni": "dv"
+      };
+      Caps.find().forEach(function (cap) {
+        Caps.update(cap._id, {$set: {color: colors[cap.name], shorthand: shorthands[cap.name]}});
+      });
+      Migrations.insert({name: "addFullName"});
     }
   });
   

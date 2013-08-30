@@ -52,8 +52,8 @@ h2, h3 {
   margin-top: 0.5em;
   text-shadow: -1px 0px 1px  rgba(0, 0, 0, 0.4),
                0px -1px 1px  rgba(0, 0, 0, 0.4),
-               1px 0px 1px  rgba(235, 235, 255, 0.6),
-               0px 1px 1px  rgba(235, 235, 255, 0.6);
+               1px 0px 1px  rgba(235, 235, 255, 0.8),
+               0px 1px 1px  rgba(235, 235, 255, 0.8);
 }
 
 #outer {
@@ -73,19 +73,14 @@ h2, h3 {
   margin: 0px;
   float: left;
   padding: 1px;
-  margin-left: 6px;
-  padding-left: 4px;
+  padding-left: 15px;
 }
 
 #user-ratings {
   background-image: url('images/heart.svg');
+  width: 100%;
   background-repeat: repeat-y;
 }
-
-/*.scoreboard :first-child{
-
-}
-*/
 
 .friend, .me {
   overflow: hidden;
@@ -102,10 +97,18 @@ h2, h3 {
   border-top: 1px solid #eee;
 }
 
+.friend:last-child {
+  margin-bottom: 30px;
+}
+
 .cap {
-    cursor: pointer;
     padding: 5px;
+    margin-right: 2px;
     display: inline-block;
+}
+
+.cap[draggable=true] svg g {
+  cursor: move;
 }
 
 .cap.sortable-dragging {
@@ -141,8 +144,4 @@ h2, h3 {
 
 .none {
     color: #777;
-}
-
-.inc {
-  cursor: pointer;
 }
