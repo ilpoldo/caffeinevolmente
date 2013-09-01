@@ -20,7 +20,7 @@ body {
     -o-user-select: none;
     user-select: none;
     background-color: #9d3c56;
-    background: url('images/bg.jpg') center;
+    background: url('images/bg.jpg') top center;
 }
 
 #app-name {
@@ -56,6 +56,12 @@ h2, h3 {
                0px 1px 1px  rgba(235, 235, 255, 0.8);
 }
 
+h4 {
+  font-family: museo-sans, sans-serif;
+  text-shadow: -1px 0px 1px  rgba(235, 235, 255,0.4),
+               0px -1px 1px  rgba(235, 235, 255,0.4);
+}
+
 #outer {
   width: 600px;
   margin: 0 auto;
@@ -69,7 +75,6 @@ h2, h3 {
 .scoreboard {
   display: inline-block;
   min-width: 69px;
-  height: 75px;
   margin: 0px;
   float: left;
   padding: 1px;
@@ -80,6 +85,13 @@ h2, h3 {
   background-image: url('images/heart.svg');
   width: 100%;
   background-repeat: repeat-y;
+}
+
+.detail {
+  margin-right: 5px;
+  margin-left: 5px;
+  -webkit-transition: height 2000ms ease-out;
+  transition: height 2000ms ease-out;
 }
 
 .friend, .me {
@@ -102,9 +114,22 @@ h2, h3 {
 }
 
 .cap {
-    padding: 5px;
-    margin-right: 2px;
+    margin: 0;
+    padding: 0 4px;
+    padding-top: 6px;
+    margin-right: 3px;
     display: inline-block;
+}
+
+.friend .cap.non-selected {
+  opacity: 0.3
+}
+
+.me .cap.selected {
+  background-color: #cec;
+  -moz-box-shadow:    inset 0 0 6px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  box-shadow:         inset 0 0 6px rgba(0, 0, 0, 0.4);
 }
 
 .cap[draggable=true] svg g {

@@ -44,8 +44,7 @@ if (Meteor.isClient) {
                           });
 
       console.log(t);
-    }
-
+    },
   });
 
   var taste_distance = function(friend) {
@@ -63,7 +62,11 @@ if (Meteor.isClient) {
     return 1.0 / (1.0 + Math.sqrt(_.reduce(square_distances, function(sum, d){ return sum + d; })));
   };
 
-  Template.social.friends = function () {
+  Template.detail.selected_cap = function() {
+    return Session.get("selected_cap");
+  };
+
+  Template.social.friends = function() {
     if (Meteor.user()) {
       // TODO: sort by latest updated
       var friends = Meteor.users.find({_id: {$ne: Meteor.user()._id}}).fetch();
@@ -82,8 +85,28 @@ if (Meteor.isClient) {
   {
     tierra_tag: function() {return this.shorthand === 'ti';},
     dolcemente_slice: function() {return this.shorthand === 'dl';},
-    le_selezioni: function() {return ["mm", "dv"].indexOf(this.shorthand) != -1;}
+    le_selezioni: function() {return ["mm", "dv"].indexOf(this.shorthand) != -1;},
+    selected: function() {
+      var selected = Session.get("selected_cap");
+      if (!selected) {
+        return null;
+      } else {
+        return selected._id === this._id ? 'selected' : 'non-selected';
+      }
+    }
   });
+
+  Template.cap.events({
+    'click': function () {
+      var selected = Session.get("selected_cap");
+      if (selected) {
+        Session.set("selected_cap", this._id === selected._id ? null : this);
+      } else {
+        Session.set("selected_cap", this);
+      }
+    }
+  });
+
 
   Template.friend.caps = function() {
     return favourites(this);

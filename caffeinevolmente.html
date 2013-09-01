@@ -6,7 +6,10 @@
   <div style="float:right">{{loginButtons align="right"}}</div>
   <h1 id="app-name">Caffeinevolmente</h1>
   <div id="outer">
-    {{> scoreboard}}
+    {{#if currentUser}}
+      {{> scoreboard}}
+      {{> detail}}
+    {{/if}}
     {{> social}}
   </div>
   <div id="footer"></div>
@@ -14,14 +17,20 @@
 </body>
 
 <template name="scoreboard">
-  {{#if currentUser}}
-    <div class="me">
-      <h2>La tua classifica</h2>
-      <ul id="user-ratings" class="scoreboard">
-        {{#each caps}}
-          {{> cap}}
-        {{/each}}
-      </ul>
+  <div class="me">
+    <h2>La tua classifica</h2>
+    <ul id="user-ratings" class="scoreboard">
+      {{#each caps}}
+        {{> cap}}
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="detail">
+  {{#if selected_cap}}
+    <div class="detail">
+      <h4 class="name" style="color:{{selected_cap.color}}">{{selected_cap.name}}</span>
     </div>
   {{/if}}
 </template>
@@ -46,7 +55,7 @@
 </template>
 
 <template name="cap">
-  <li class="cap {{shorthand}}">
+  <li class="cap {{shorthand}} {{selected}}">
     <svg width="66px" height="66px" viewBox="0 0 67 67" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
       <defs>
           <linearGradient x1="11.0764195%" y1="-7.97892826%" x2="87.4986246%" y2="97.287632%" id="linearGradient-1">
@@ -82,9 +91,5 @@
         {{/if}}
       </g>
     </svg>
-    <div style="display:none">
-      <span class="name">{{name}}</span>
-      <span class="score">{{score}}</span>
-    </div>
   </li>
 </template>
